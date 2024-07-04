@@ -32,16 +32,28 @@ public class PatrimonioController {
         repository.save(patrimonio);
         return ResponseEntity.ok("Patromonio foi colocado no(a) " + patrimonio.getNome_patrimonio() +" destinado ao setor "+ patrimonio.getSetor());
     }
-    @GetMapping("/setor")
-    public ResponseEntity<List<Patrimonio>> getPatrimoniosBySetor(@RequestParam String setor) {
-        List<Patrimonio> patrimonios = repository.findBySetor(setor);
-        return ResponseEntity.ok(patrimonios);
+    @PutMapping("/{id}")
+    public ResponseEntity<Patrimonio> updatePatrimonio(@PathVariable String id, @RequestBody ResquestPatrimonio request) {
+        Optional<Patrimonio> optionalPatrimonio = repository.findById(id);
+        if (optionalPatrimonio.isPresent()) {
+            Patrimonio patrimonio = optionalPatrimonio.get();
+            patrimonio.setNumero_patrimonio(request.numero_patrimonio());
+            patrimonio.setNome_patrimonio(request.nome_patrimonio());
+            patrimonio.setSetor(request.setor());
+            repository.save(patrimonio);
+            return ResponseEntity.ok(patrimonio);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PutMapping()
-    public ResponseEntity updatePatrimonio(@RequestBody @Validated ResquestPatrimonio data ){
-        Optional<Patrimonio> patrimonio = repository.findById(data.id());
-        return ResponseEntity.ok(patrimonio);
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePatrimonio(@PathVariable String id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
