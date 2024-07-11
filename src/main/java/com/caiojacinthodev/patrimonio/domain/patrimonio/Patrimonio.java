@@ -17,7 +17,7 @@ public class Patrimonio {
 
     private String numero_patrimonio;
     private String nome_patrimonio;
-    private String setor;
+    private Setor setor;
 
 
     public Patrimonio(ResquestPatrimonio resquestPatrimonio){
