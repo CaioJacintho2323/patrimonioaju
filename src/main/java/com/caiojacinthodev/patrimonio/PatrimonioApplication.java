@@ -15,12 +15,4 @@ public class PatrimonioApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PatrimonioApplication.class, args);
 	}
-	private Patrimonio patrimonio;
-
-	@EventListener(ApplicationReadyEvent.class )
-	public void sendMail(){
-		senderService.sendEmail("caio.mota@souunit.com.br",
-				"TESTE DE PATRIMONIO",
-				"Patrimonio está sendo adicionado no banco");
-	}
 }
